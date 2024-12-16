@@ -72,6 +72,7 @@ st.markdown(
             background-repeat: no-repeat;
             font-family: 'Arial', sans-serif;
         }}
+    
         /* Title styling */
         h1 {{
             font-family: 'Dancing Script', cursive;
@@ -212,6 +213,7 @@ else:
                 st.error("Invalid username or password.")
 
     # Signup Tab
+    # Signup Tab
     with tab2:
         st.markdown("""
             <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
@@ -227,10 +229,21 @@ else:
             </style>
             <h2 class="custom-sans-serif">SIGN UP</h2>
         """, unsafe_allow_html=True)
+
+        # Collect user input
         signup_username = st.text_input("Username", key="signup_username")
         signup_password = st.text_input("Password", type="password", key="signup_password")
+        confirm_password = st.text_input("Confirm Password", type="password", key="confirm_password")
+
+        # Signup logic
         if st.button("Signup"):
-            if add_user(signup_username, signup_password):
-                st.success("Signup successful! You can now login.")
+            if signup_password != confirm_password:
+                st.error("Passwords do not match. Please try again.")
+            elif len(signup_password) < 6:
+                st.error("Password must be at least 6 characters long.")
             else:
-                st.error("Username already exists. Try another.")
+                if add_user(signup_username, signup_password):
+                    st.success("Signup successful! You can now login.")
+                else:
+                    st.error("Username already exists. Try another.")
+
